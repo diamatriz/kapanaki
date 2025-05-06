@@ -1,8 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, } from "framer-motion"; // Импорт Framer Motion
 import './App.css';
-import { useCallback } from "react";
 
 //animation settings
   const itemVariants = {
@@ -138,6 +137,7 @@ function App() {
     const savedTodos = localStorage.getItem('todos'); // Получаем сохранённые задачи
     return savedTodos ? JSON.parse(savedTodos) : []; // Парсим или возвращаем пустой массив
   });
+
   
   // Состояние для значения input
   const [inputValue, setInputValue] = useState('');
@@ -159,18 +159,24 @@ function App() {
     localStorage.setItem('todos', JSON.stringify(todos)); // Преобразуем в строку
   }, [todos]); // Зависимость от состояния todos
 
-  // Добавление новой задачи
-  const addTodo = useCallback(() => {
-    if (inputValue.trim()) {
-      setTodos(prev => [...prev, {
-        text: inputValue,
-        id: Date.now(),
-        completed: false
-      }]);
-      setInputValue('');
+ // Изменяем функцию addTodo - теперь задачи добавляются в начало
+ const addTodo = useCallback(() => {
+  if (inputValue.trim()) {
+    setTodos([{ 
+      text: inputValue,
+      id: Date.now(),
+      completed: false 
+    }, ...todos]); // Добавляем в начало массива
+    setInputValue('');
+  }
+}, [inputValue, todos]);
+
+  //adding 'submit' const via useCallback
+  const handleKeyPress = useCallback((e) => {
+    if (e.key === 'Enter' && inputValue.trim()) {
+      addTodo();
     }
-  
-  }, [inputValue]);
+  }, [inputValue, addTodo]);
 
   const deleteTodo = useCallback((id) => {
     setTodos(prev => prev.filter(todo => todo.id !== id));
@@ -208,10 +214,12 @@ function App() {
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyPress} //listener for 'enter' submit
           placeholder="type your ask here to add"
         />
         <motion.button
           onClick={addTodo}
+          disabled={!inputValue.trim()}
           whileHover={{ 
             background: 'black',
             color: 'white',
