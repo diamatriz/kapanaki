@@ -1,38 +1,74 @@
 .App {
-  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: monospace,sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input {
+  padding: 8px;
+  margin-right: 10px;
+  width: 70%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button {
+  padding: 8px 15px;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  border: none;
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button:hover {
+  background: #000000;
+  color: white
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 8px;
+  margin: 5px 0;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+li button {
+  background: #ffffff;
+}
+
+li button:hover {
+  background: #000000;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin: 4px 0;
+  border-radius: 4px;
+}
+
+.todo-item:hover {
+  background-color: #f5f5f5;
+}
+
+.filters button.active {
+  background: #000000;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
